@@ -1,22 +1,53 @@
 package adapter2;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import adapter2.Covid19PacientTableModelAdapter;
 import domain.Covid19Pacient;
+import domain.Symptom;
+import factory.SymptomFactory;
 
-public class Main {
+	public class Main {
 
-	public static void main(String[] args) {
-		Covid19Pacient pacient=new Covid19Pacient("aitor", 35);
-		
-		pacient.addSymptomByName("disnea", 2);
-		pacient.addSymptomByName("cefalea", 1);
-		pacient.addSymptomByName("astenia", 3);
-		
-		ShowPacientTableGUI gui=new ShowPacientTableGUI(pacient);
-		gui.setPreferredSize(
-			      new java.awt.Dimension(300, 200));
-		gui.setVisible(true);
+		public static void main(String[] args) {
+			SymptomFactory sf = new SymptomFactory();
+			Covid19Pacient m=new Covid19Pacient("Aitor", 32, sf);
+			
+			m.addSymptom(new Symptom("disnea", 10, 10), 2);
+			m.addSymptom(new Symptom("astenia", 10, 10), 3);
+			m.addSymptom(new Symptom("cefalea", 10, 10), 1);
+			
+			
+			
+			Covid19Pacient j=new Covid19Pacient("Jon", 22, sf);
+			j.addSymptom(new Symptom("sj1", 10, 10), 1);
+			j.addSymptom(new Symptom("sj2", 10, 10), 2);
+			j.addSymptom(new Symptom("sj3", 10, 10), 3);
+			j.addSymptom(new Symptom("sj4", 10, 10), 4);
+			
+			
+			Covid19PacientTableModelAdapter pacientModelAdapter1=new Covid19PacientTableModelAdapter(m);   
+			Covid19PacientTableModelAdapter pacientModelAdapter2=new Covid19PacientTableModelAdapter(j);
+			
+			JFrame jf1=new JFrame();
+			JFrame jf2=new JFrame();
 
-
+			JTable table1 = new JTable(pacientModelAdapter1);
+			 jf1.add(new JScrollPane(table1));
+	         
+		     jf1.setTitle("Covid Symptoms " + m.getName());
+		     jf1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
+		     jf1.pack();
+		     jf1.setVisible(true);
+		     
+			JTable table2 = new JTable(pacientModelAdapter2);
+				jf2.add(new JScrollPane(table2));
+				
+			     jf2.setTitle("Covid Symptoms " + j.getName());
+			     jf2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
+			     jf2.pack();
+			     jf2.setVisible(true);
+		}
 	}
-
-}
